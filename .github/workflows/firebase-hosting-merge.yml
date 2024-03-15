@@ -8,20 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Install Dependencies
-        run: npm install --prefix ./functions
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAZZ3_FB }}'
           channelId: live
           projectId: razz3-fb
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+      # Add this step to deploy Cloud Functions
+      - name: Deploy Cloud Functions
+        uses: google-github-actions/deploy-cloud-functions@v0.7.0
         with:
-          args: deploy --only functions
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          credentials: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAZZ3_FB }}
+          project_id: razz3-fb
+          # Specify the location of your functions if different from the default
+          source_dir: functions
