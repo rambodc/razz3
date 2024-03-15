@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Node.js (Version 20)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -20,5 +24,6 @@ jobs:
         with:
           credentials: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAZZ3_FB }}
           project_id: razz3-fb
-          # Specify the location of your functions if different from the default
           source_dir: functions
+          # If deploying all functions from the functions directory, you might not need the name field.
+          # If the action requires a name, specify the main function name or adjust according to the action's documentation.
